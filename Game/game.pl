@@ -18,6 +18,18 @@ path(hall3, n, hall2).
 path(hall3, w, droneDock2).
 path(droneDock2, e, hall3).
 path(generator, w, dinningRoom).
+path(dinningRoom, e, generator).
+path(dinningRoom, n, kitchen).
+path(kitchen, s, dinningRoom).
+path(dinningRoom, s, livingQuarters).
+path(livingQuarters, n, dinningRoom).
+path(livingQuarters, e, lockerRoom).
+path(lockerRoom, w, livingQuarters).
+path(dinningRoom, e, conferenceRoom).
+path(conferenceRoom, w, dinningRoom).
+path(conferenceRoom, e, mainBridge).
+path(mainBridge, w, conferenceRoom).
+
 
 at(thing, someplace).
 
