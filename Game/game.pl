@@ -3,9 +3,21 @@
 :- dynamic i_am_at/1, at/2, holding/1.
 :- retractall(at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
 
-i_am_at(someplace).
+i_am_at(droneDock1).
 
-path(someplace, n, someplace).
+path(droneDock1, e, hall1).
+path(hall1, w, droneDock1).
+path(hall1, s, hall2).
+path(hall2, n, hall1).
+path(hall2, s, hall3).
+path(hall2, w, mainDock).
+path(mainDock, e, hall2).
+path(hall2, e, generator).
+path(generator, w, hall2).
+path(hall3, n, hall2).
+path(hall3, w, droneDock2).
+path(droneDock2, e, hall3).
+path(generator, w, dinningRoom).
 
 at(thing, someplace).
 
