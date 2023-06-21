@@ -18,8 +18,10 @@ path(generator, w, hall2).
 path(hall3, n, hall2).
 path(hall3, w, droneDock2).
 path(droneDock2, e, hall3).
-path(generator, w, dinningRoom).
-path(dinningRoom, e, generator).
+path(generator, e, dinningRoom).
+path(dinningRoom, w, generator).
+path( generator,n,storageRoom).
+path(storageRoom, s, generator).
 path(dinningRoom, n, kitchen).
 path(kitchen, s, dinningRoom).
 path(dinningRoom, s, livingQuarters).
@@ -196,3 +198,6 @@ describe(mainBridge) :-
 
 describe(storageRoom) :-
     write('You are in a storage room. Various items are stacked on shelves.'), nl.
+
+    describe(droneDock2):-
+    write('ToDO'), nl.
