@@ -13,8 +13,17 @@ path(hall2, n, hall1).
 path(hall2, s, hall3).
 path(hall2, w, mainDock).
 path(mainDock, e, hall2).
-path(hall2, e, generator).
-path(generator, w, hall2).
+
+
+
+path(hall2, e, generatorDoor).
+path(generatorDoor, w, hall2).
+
+path(generator, w, generatorDoor).
+path(generatorDoor, e, generator) :- holding(fuse) , holding(fuseCase).
+path(generatorDoor, e, generator) :- write('You need a fuse and a fuse case to open the door'), nl, fail.
+
+
 path(hall3, n, hall2).
 path(hall3, w, droneDock2).
 path(droneDock2, e, hall3).
