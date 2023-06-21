@@ -29,12 +29,21 @@ path(hall3, w, droneDock2).
 path(droneDock2, e, hall3).
 path(generator, e, dinningRoom).
 path(dinningRoom, w, generator).
-path( generator,n,storageRoom).
+path(generator,n,storageRoom).
 path(storageRoom, s, generator).
 path(dinningRoom, n, kitchen).
 path(kitchen, s, dinningRoom).
-path(dinningRoom, s, livingQuarters).
-path(livingQuarters, n, dinningRoom).
+
+
+
+path(dinningRoom, s, fire).
+path(fire, n, dinningRoom).
+
+path(livingQuarters, n, fire).
+path(fire, s, livingQuarters) :- holding(fireExtinguisher).
+path(fire, s, livingQuarters) :- write('You need a fire extinguisher to put out the fire'), nl, fail.
+
+
 path(livingQuarters, e, lockerRoom).
 path(lockerRoom, w, livingQuarters).
 path(dinningRoom, e, conferenceRoom).
@@ -209,4 +218,4 @@ describe(storageRoom) :-
     write('You are in a storage room. Various items are stacked on shelves.'), nl.
 
     describe(droneDock2):-
-    write('ToDO'), nl.
+    write('You are in DroneDock2'), nl.
