@@ -1,7 +1,8 @@
-:- dynamic i_am_at/1, at/2, holding/1, unlocked/1, used/1.
-:- retractall(at(_, _)), retractall(i_am_at(_)), retractall(alive(_)), retractall(unlocked(_)), retractall(used(_)).
+:- dynamic i_am_at/1, at/2, holding/1.
 
-:- discontiguous go/1, look/0, take/1, drop/1, unlock/2, use_fire_extinguisher/0.
+:- retractall(at(_, _)), retractall(i_am_at(_)), retractall(holding(_)).
+
+:- discontiguous go/1, look/0, take/1, drop/1.
 
 i_am_at(droneDock1).
 
@@ -85,15 +86,9 @@ w :- go(w).
 go(Direction) :-
         i_am_at(Here),
         path(Here, Direction, There),
-        unlocked(There),
         retract(i_am_at(Here)),
         assert(i_am_at(There)),
         !, look.
-
-go(Direction) :-
-        locked_door(Direction, Place),
-        \+ unlocked(Place),
-        write('The door to the '), write(Direction), write(' is locked.'), nl.
 
 go(_) :-
         write('You can''t go that way.').
@@ -147,8 +142,6 @@ instructions :-
         write('n.  s.  e.  w.     -- to go in that direction.'), nl,
         write('take(Object).      -- to pick up an object.'), nl,
         write('drop(Object).      -- to put down an object.'), nl,
-        write('unlock(Direction). -- to unlock a locked door.'), nl,
-        write('use_fire_extinguisher. -- to use the fire extinguisher.'), nl,
         write('look.              -- to look around you again.'), nl,
         write('instructions.      -- to see this message again.'), nl,
         write('halt.              -- to end the game and quit.'), nl,
@@ -203,73 +196,3 @@ describe(mainBridge) :-
 
 describe(storageRoom) :-
     write('You are in a storage room. Various items are stacked on shelves.'), nl.
-
-
-/* Define locked doors and required items to unlock them. */
-
-locked_door(n, hall1).
-locked_door(e, generator).
-locked_door(w, mainBridge).
-
-unlock(e, generator) :-
-    holding(fuse),
-    retract(locked_door(e, generator)),
-    assert(unlocked(generator)),
-    write('You unlock the door to the generator room.'), nl.
-
-unlock(w, mainBridge) :-
-    holding(fireExtinguisher),
-    retract(locked_door(w, mainBridge)),
-    assert(unlocked(mainBridge)),
-    write('You unlock the door to the main bridge.'), nl.
-
-unlock(_, _) :-
-    write('You don''t have the required item to unlock the door.'), nl.
-
-
-/* Use the fire extinguisher to put out the fire in the kitchen. */
-
-use_fire_extinguisher :-
-    i_am_at(kitchen),
-    at(fire, kitchen),
-    holding(fireExtinguisher),
-    retract(at(fire, kitchen)),
-    retract(holding(fireExtinguisher)),
-    assert(used(fireExtinguisher)),
-    write('You use the fire extinguisher to put out the fire in the kitchen.'), nl.
-
-use_fire_extinguisher :-
-    write('There is no fire here, or you don''t have the fire extinguisher.'), nl.
-
-
-/* The game loop */
-
-main :-
-    repeat,
-    write('> '),
-    read(X),
-    call(X),
-    check_finished,
-    nl,
-    X = halt.
-
-
-/* Check if the game is finished (win or lose conditions) */
-
-check_finished :-
-    i_am_at(mainBridge),
-    used(fireExtinguisher),
-    write('Congratulations! You have successfully completed the game.'), nl,
-    finish.
-
-check_finished :-
-    \+ alive(player),
-    write('You have died! Game over.'), nl,
-    finish.
-
-alive(player).
-
-
-/* Start the game */
-
-:- initialization(main).
