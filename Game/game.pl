@@ -41,7 +41,7 @@ path(fire, n, dinningRoom).
 
 path(livingQuarters, n, fire).
 path(fire, s, livingQuarters) :- holding(fireExtinguisher).
-path(fire, s, livingQuarters) :- write('You need a fire extinguisher to put out the fire'), nl, fail.
+path(fire, s, livingQuarters) :- write('You need a fire extinguisher to put out the fire'), nl.
 
 
 path(livingQuarters, e, lockerRoom).
@@ -105,6 +105,8 @@ w :- go(w).
 
 go(Direction) :-
         i_am_at(Here),
+        /*write('You are in '),
+        write(Here), nl,*/
         path(Here, Direction, There),
         retract(i_am_at(Here)),
         assert(i_am_at(There)),
@@ -197,6 +199,9 @@ describe(mainDock) :-
 
 describe(generator) :-
     write('You arrive at the generator room. It hums with energy. No engineers seem to be around tho. Just you and the hum.'), nl.
+
+describe(generatorDoor) :-
+    write('You are at the door to the generator room.'), nl.
 
 describe(dinningRoom) :-
     write('You step into the dining room. Tables are set for a meal, but no one is here.'), nl.
