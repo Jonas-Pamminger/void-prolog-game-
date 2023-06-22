@@ -41,13 +41,13 @@ path(fire, n, dinningRoom).
 
 path(livingQuarters, n, fire).
 path(fire, s, livingQuarters) :- holding(fireExtinguisher).
-path(fire, s, livingQuarters) :- write('You need a fire extinguisher to put out the fire'), nl.
+path(fire, s, livingQuarters) :- write('You need a fire extinguisher to put out the fire'), nl, fail.
 
 
 path(livingQuarters, e, lockerRoom).
 path(lockerRoom, w, livingQuarters).
-path(dinningRoom, e, conferenceRoom).
-path(conferenceRoom, w, dinningRoom).
+path(lockerRoom, e, conferenceRoom).
+path(conferenceRoom, w, lockerRoom).
 path(conferenceRoom, e, mainBridge).
 path(mainBridge, w, conferenceRoom).
 
@@ -230,6 +230,8 @@ describe(mainBridge) :-
 
 describe(storageRoom) :-
     write('You are in a storage room. Various items are stacked on shelves.'), nl.
+describe(fire) :- 
+        write('Help!!! Everywhere is fire.'), nl.
 
     describe(droneDock2):-
     write('You are in Drone Dock 2'), nl.
